@@ -1,0 +1,82 @@
+/* Fondo animado con ciclo de colores */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: cambiarColores 15s infinite alternate;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Colores que cambian cada cierto tiempo */
+@keyframes cambiarColores {
+  0% { background: linear-gradient(45deg, #1e3c72, #2a5298); }
+  25% { background: linear-gradient(45deg, #ff6a00, #ee0979); }
+  50% { background: linear-gradient(45deg, #11998e, #38ef7d); }
+  75% { background: linear-gradient(45deg, #ff9966, #ff5e62); }
+  100% { background: linear-gradient(45deg, #141e30, #243b55); }
+}
+
+/* Contenedor central */
+.overlay {
+  text-align: center;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.5);
+  animation: aparecer 2s ease-in-out;
+}
+
+/* Animación de entrada */
+@keyframes aparecer {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Texto */
+.titulo {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  color: #ffcc00;
+}
+
+.subtitulo {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+/* Botón */
+button {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #00c6ff;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #0072ff;
+  transform: scale(1.1);
+}
+
+/* Mensaje oculto/visible */
+#mensaje {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #ff4444;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: none;
+  animation: mensajeAnim 0.8s ease-in-out;
+}
+
+@keyframes mensajeAnim {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
