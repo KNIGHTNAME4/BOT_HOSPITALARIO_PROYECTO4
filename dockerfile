@@ -1,4 +1,3 @@
-
 # Imagen base con Python + Node
 FROM python:3.13.7-slim-bookworm
 
@@ -13,11 +12,15 @@ RUN apt-get update && apt-get install -y \
 # Carpeta de trabajo
 WORKDIR /app
 
-# Copiar el frontend
-COPY public ./public
+# Copiar toda la aplicación
+COPY app_software/ ./app_software
+
+# Instalar dependencias Python
+WORKDIR /app/app_software
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Exponer puerto
-EXPOSE 8080
+EXPOSE 5000
 
-# Servir el frontend
-CMD ["serve", "-s", "public", "-l", "8080"]
+# Ejecutar Flask con Gunicorn
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]

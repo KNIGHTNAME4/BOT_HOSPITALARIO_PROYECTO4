@@ -1,0 +1,29 @@
+:root{
+  --primary:#0b3a57;
+  --secondary:#1e6fa5;
+  --muted:#888;
+  --bg:#f0f4f8;
+  --card:#fff;
+}
+body{
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  margin:0; color:#222;
+  transition: background 0.3s ease;
+}
+.hero{
+  background:var(--card); padding:28px; border-radius:10px;
+  box-shadow:0 6px 20px rgba(10,10,10,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align:center;
+  margin:40px auto; max-width:500px;
+}
+.hero:hover{ transform: translateY(-3px); box-shadow:0 10px 25px rgba(10,10,10,0.1); }
+.btn{ display:inline-block; padding:10px 16px; border-radius:8px; background:var(--primary); color:#fff; text-decoration:none; margin:5px; transition: background 0.3s ease, transform 0.2s ease;}
+.btn:hover{ background:var(--secondary); transform: scale(1.05);}
+.btn.outline{ background:transparent; border:1px solid var(--primary); color:var(--primary);}
+.btn.outline:hover{ border-color:var(--secondary); color:var(--secondary);}
+.form input{ width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; display:block; margin-bottom:10px;}
+.flashes{ margin-bottom:12px; }
+.flash.success{ background:#e6f9ec; color:#0a7f44; padding:8px; border-radius:6px; margin-bottom:8px; }
+.flash.danger{ background:#ffe7e7; color:#9c1b1b; padding:8px; border-radius:6px; margin-bottom:8px; }

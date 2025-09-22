@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: b0reas-deployment
+  labels:
+    app: b0reas
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: b0reas
+  template:
+    metadata:
+      labels:
+        app: b0reas
+    spec:
+      containers:
+        - name: b0reas-container
+          image: knight4444/bot4_hospitalario4:version1.3
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

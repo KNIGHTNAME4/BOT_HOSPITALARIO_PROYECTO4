@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crear sesión B0REAS</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</head>
+<body>
+<div class="hero form">
+  <h2>Crear sesión</h2>
+  <form method="POST" action="/register">
+    <label>Usuario:</label>
+    <input type="text" name="username" required>
+    <label>Contraseña:</label>
+    <input type="password" name="password" required>
+    <button class="btn" type="submit">Crear</button>
+  </form>
+</div>
+</body>
+</html>
