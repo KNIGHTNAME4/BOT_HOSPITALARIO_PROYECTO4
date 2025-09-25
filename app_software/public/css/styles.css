@@ -4,26 +4,199 @@
   --muted:#888;
   --bg:#f0f4f8;
   --card:#fff;
+
+  /* Nuevos colores para gradientes y animaciones */
+  --gradient1:#0b3a57;
+  --gradient2:#1e6fa5;
+  --gradient3:#0b8fcf;
+  --highlight:#ff416c;
+  --highlight2:#ff4b2b;
 }
+
 body{
   font-family: Inter, Arial, sans-serif;
   background: var(--bg);
-  margin:0; color:#222;
+  margin:0; 
+  color:#222;
   transition: background 0.3s ease;
 }
+
+/* Hero animado con gradiente */
 .hero{
-  background:var(--card); padding:28px; border-radius:10px;
+  background: linear-gradient(270deg, var(--gradient1), var(--gradient2), var(--gradient3));
+  background-size: 600% 600%;
+  animation: gradientBG 15s ease infinite;
+  padding:28px; 
+  border-radius:10px;
   box-shadow:0 6px 20px rgba(10,10,10,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align:center;
-  margin:40px auto; max-width:500px;
+  margin:40px auto; 
+  max-width:500px;
+  color:#fff;
+  position: relative; /* Asegura que los ::after estén relativos */
 }
-.hero:hover{ transform: translateY(-3px); box-shadow:0 10px 25px rgba(10,10,10,0.1); }
-.btn{ display:inline-block; padding:10px 16px; border-radius:8px; background:var(--primary); color:#fff; text-decoration:none; margin:5px; transition: background 0.3s ease, transform 0.2s ease;}
-.btn:hover{ background:var(--secondary); transform: scale(1.05);}
-.btn.outline{ background:transparent; border:1px solid var(--primary); color:var(--primary);}
-.btn.outline:hover{ border-color:var(--secondary); color:var(--secondary);}
-.form input{ width:100%; padding:8px; border-radius:6px; border:1px solid #ddd; margin-top:6px; display:block; margin-bottom:10px;}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.hero:hover{ 
+  transform: translateY(-5px); 
+  box-shadow:0 10px 25px rgba(10,10,10,0.15); 
+}
+
+/* Titulos dentro del hero */
+.hero h1{
+  font-size:2.5rem;
+  margin-bottom:0.5rem;
+  text-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+}
+
+.hero p{
+  font-size:1.2rem;
+  margin-bottom:20px;
+}
+
+/* Botones con animación y glow */
+.btn{ 
+  display:inline-block; 
+  padding:10px 16px; 
+  border-radius:8px; 
+  background: var(--primary); 
+  color:#fff; 
+  text-decoration:none; 
+  margin:5px; 
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative; /* IMPORTANTE: para que esté encima de pseudo-elementos */
+}
+
+.btn:hover{
+  background: var(--secondary); 
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--highlight), 0 0 25px var(--highlight2);
+}
+
+.btn.outline{ 
+  background:transparent; 
+  border:2px solid #fff; 
+  color:#fff;
+}
+
+.btn.outline:hover{ 
+  background:#fff; 
+  color: var(--primary); 
+  border-color: var(--primary);
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* Formularios y flashes (mantengo tu estilo) */
+.form input{ 
+  width:100%; 
+  padding:8px; 
+  border-radius:6px; 
+  border:1px solid #ddd; 
+  margin-top:6px; 
+  display:block; 
+  margin-bottom:10px;
+}
+
 .flashes{ margin-bottom:12px; }
-.flash.success{ background:#e6f9ec; color:#0a7f44; padding:8px; border-radius:6px; margin-bottom:8px; }
-.flash.danger{ background:#ffe7e7; color:#9c1b1b; padding:8px; border-radius:6px; margin-bottom:8px; }
+
+.flash.success{ 
+  background:#e6f9ec; 
+  color:#0a7f44; 
+  padding:8px; 
+  border-radius:6px; 
+  margin-bottom:8px; 
+}
+
+.flash.danger{ 
+  background:#ffe7e7; 
+  color:#9c1b1b; 
+  padding:8px; 
+  border-radius:6px; 
+  margin-bottom:8px; 
+}
+
+/* Sección info elegante */
+.info{
+  padding:50px 20px;
+  text-align:center;
+  max-width:800px;
+  margin:0 auto 50px auto;
+  border-radius:10px;
+  background: linear-gradient(120deg, #ffffff 0%, #e0f7ff 100%);
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
+  animation: floatInfo 6s ease-in-out infinite alternate;
+  position: relative; /* IMPORTANTE para ::after */
+}
+
+@keyframes floatInfo{
+  0% { transform: translateY(0px);}
+  100% { transform: translateY(-10px);}
+}
+
+.info h2{
+  font-size:2rem;
+  margin-bottom:20px;
+  color: var(--primary);
+}
+
+.info p{
+  font-size:1rem;
+  line-height:1.6;
+  color:#333;
+  margin-bottom:15px;
+}
+
+/* Detalles extra: sombras y animaciones sutiles para tarjetas */
+.hero, .info{
+  overflow: hidden;
+}
+
+.hero::after, .info::after{
+  content:'';
+  position:absolute;
+  width:200%;
+  height:200%;
+  top:-50%;
+  left:-50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  animation: swirl 12s linear infinite;
+  pointer-events: none; /* IMPORTANTE: permite hacer hover y click sobre botones */
+}
+
+@keyframes swirl{
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* ========================
+   FONDO ANIMADO DE LÍNEAS
+   Se añadió al final del CSS
+   ======================== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(11,58,87,0.05),
+    rgba(11,58,87,0.05) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+  z-index: -1; /* Se queda detrás de todo el contenido */
+  animation: moveLines 20s linear infinite;
+  pointer-events: none; /* IMPORTANTE: para que los botones respondan */
+}
+
+/* Animación para que las líneas se muevan */
+@keyframes moveLines {
+  0% { background-position: 0 0; }
+  100% { background-position: 1000px 1000px; }
+}
