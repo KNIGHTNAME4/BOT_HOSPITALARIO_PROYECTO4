@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+from PyPDF2 import PdfReader
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, "database.db")
@@ -72,12 +73,91 @@ def login():
             return redirect(url_for("login"))
     return render_template("login.html")
 
-@app.route("/dashboard")
+##@app.route("/dashboard")
+##def dashboard():
+ ##  if "user_id" not in session:
+   ##     flash("Debes iniciar sesión primero.", "warning")
+   ##     return redirect(url_for("login"))
+    ## return render_template("dashboard.html", username=session.get("username"))
+
+@app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
     if "user_id" not in session:
         flash("Debes iniciar sesión primero.", "warning")
         return redirect(url_for("login"))
-    return render_template("dashboard.html", username=session.get("username"))
+
+    pdf_file = None
+
+    if request.method == "POST":
+        if "file" not in request.files or request.files["file"].filename == "":
+            flash("Por favor selecciona un archivo PDF.", "danger")
+        else:
+            file = request.files["file"]
+            if file.filename.endswith(".pdf"):
+                #  usa la carpeta public/uploads dentro de static_folder
+                upload_path = os.path.join(app.static_folder, "uploads")
+                os.makedirs(upload_path, exist_ok=True)
+
+                save_path = os.path.join(upload_path, file.filename)
+                file.save(save_path)
+
+                  #  AQUI ALTERA: leer texto del PDF y guardarlo en sesión
+                reader = PdfReader(save_path)
+                pdf_text = ""
+                for page in reader.pages:
+                    if page.extract_text():  # validar que no sea None
+                        pdf_text += page.extract_text() + "\n"
+
+                session["pdf_data"] = pdf_text  # guardamos en sesión
+                #  HASTA AQUI ALTERA
+
+
+                pdf_file = file.filename
+                flash("PDF subido exitosamente 🎉", "success")
+            else:
+                flash("Solo se permiten archivos PDF.", "danger")
+
+    return render_template(
+        "dashboard.html",
+        username=session.get("username"),
+        pdf_file=pdf_file
+    )
+
+@app.route("/graficos")
+def graficos():
+    # Aseguramos que el usuario esté logueado
+    if "user_id" not in session:
+        flash("Debes iniciar sesión primero.", "warning")
+        return redirect(url_for("login"))
+
+    # Verificamos que haya datos de PDF guardados en sesión
+    if "pdf_data" not in session:
+        flash("Primero debes subir un PDF en el dashboard.", "danger")
+        return redirect(url_for("dashboard"))
+
+    # Recuperamos texto del PDF
+    pdf_text = session["pdf_data"]
+
+    # Calcular estadísticas
+    num_palabras = len(pdf_text.split())
+    num_caracteres = len(pdf_text)
+    num_lineas = pdf_text.count("\n") + 1
+
+    # Datos para Chart.js
+    chart_data = {
+        "labels": ["Palabras", "Caracteres", "Líneas"],
+        "values": [num_palabras, num_caracteres, num_lineas]
+    }
+
+    return render_template(
+        "graficos.html",
+        username=session.get("username"),
+        pdf_text=pdf_text,
+        chart_data=chart_data
+    )
+
+
+
 
 @app.route("/logout")
 def logout():
