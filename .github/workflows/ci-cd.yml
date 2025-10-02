@@ -22,11 +22,15 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd app_sofware
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+
       - name: Run Tests
-        run: pytest -v tests/
+        run: |
+         cd app_software
+         PYTHONPATH=.:../app-sofware pytest -v ../tests/
 
   # CAP 2: Docker Build y Push
   docker:
