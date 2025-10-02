@@ -45,7 +45,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t flask_app_ci:v1 .
-          docker tag flask_app_ci:latest knight4444/flask_app_ci:v1
+          docker tag flask_app_ci:v1 knight4444/flask_app_ci:v1
           docker push knight4444/flask_app_ci:v1
 
   # CAP 3: Deploy en Kubernetes (opcional)
